@@ -1,0 +1,23 @@
+
+
+- name: sq-postgresql
+  jdbc:
+    url: jdbc:postgresql://172.17.0.3/testing
+    username: postgres
+    password: mysecretpassword
+    driver: org.postgresql.Driver
+    check: "SELECT * FROM xxx;"
+
+    retry:
+      max_attempts: 5
+      wait_duration: 5
+
+- name: sq-rabbit
+  rabbit:
+    host: 172.17.0.3
+    port: 5672
+    username: guest
+    password: guest
+    retry:
+      max_attempts: 5
+      wait_duration: 5

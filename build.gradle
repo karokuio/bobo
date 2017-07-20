@@ -1,0 +1,17 @@
+apply plugin: 'groovy'
+apply plugin: 'application'
+
+mainClassName = "bobo.launch"
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  compile "org.codehaus.groovy:groovy-all:2.4.12"
+  compile "io.github.resilience4j:resilience4j-retry:0.10.0"
+  compile "org.postgresql:postgresql:9.3-1102-jdbc41"
+  compile "org.yaml:snakeyaml:1.17"
+  compile "com.rabbitmq:amqp-client:4.1.1"
+  compile "com.sparkjava:spark-core:2.6.0"
+}

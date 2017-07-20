@@ -1,0 +1,24 @@
+- name: sq-postgres
+  jdbc:
+    url: jdbc:postgres://
+    driver_class:
+    username: username
+    password: password
+    check:
+      query: SELECT * FROM earth
+    retry:
+      every: 1m
+      timeout: 60s
+
+- name: sq-rabbit
+  rabbit:
+    url: https://blablabla:3423/blas
+    username: guest
+    password: guest
+    check:
+      queues:
+        - templates
+        - events
+    retry:
+      every: 5s
+      timeout: 60s

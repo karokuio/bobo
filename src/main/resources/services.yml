@@ -1,0 +1,6 @@
+
+connection:
+  port: 4040
+  https: true
+
+shutdown_after: 5min
