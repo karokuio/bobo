@@ -13,7 +13,6 @@ package bobo
 
 import groovy.sql.Sql
 import java.util.function.Supplier
-import io.github.resilience4j.retry.Retry
 
 import bobo.common as C
 
@@ -23,11 +22,8 @@ import bobo.common as C
  * @param config
  * @since 0.1.0
  */
-static void watch(Map config) {
-  String watcherId = "jdbc:${config.name}"
-  Retry retry = C.newRetry(watcherId, config)
-
-  retry.executeSupplier(newQueryProducer(config))
+static void watch(String id, Map config) {
+  C.executeRetry(id, config, newQueryProducer(config))
 }
 
 /**

@@ -18,7 +18,6 @@ import java.util.function.Supplier
 import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
-import io.github.resilience4j.retry.Retry
 
 import bobo.common as C
 
@@ -30,11 +29,8 @@ import bobo.common as C
  * file
  * @since 0.1.0
  */
-static void watch(Map config) {
-  String watcherId = "rabbit:${config.name}"
-  Retry retry = C.newRetry(watcherId, config)
-
-  retry.executeSupplier(newQueueChecker(config))
+static void watch(String id, Map config) {
+  C.executeRetry(id, config, newQueueChecker(config))
 }
 
 /**
