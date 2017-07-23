@@ -19,9 +19,7 @@ import com.rabbitmq.client.Channel
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
 import io.github.resilience4j.retry.Retry
-import io.github.resilience4j.retry.RetryConfig
 
-import bobo.events as E
 import bobo.common as C
 
 /**
@@ -34,14 +32,7 @@ import bobo.common as C
  */
 static void watch(Map config) {
   String watcherId = "rabbit:${config.name}"
-  RetryConfig retryCfg = C.newRetryConfig(config)
-  Retry retry = Retry.of(watcherId, retryCfg)
-
-  retry
-  .eventPublisher
-  .onSuccess(E.success(watcherId))
-  .onError(E.failure(watcherId))
-  .onIgnoredError(E.failure(watcherId))
+  Retry retry = C.newRetry(watcherId, config)
 
   retry.executeSupplier(newQueueChecker(config))
 }
