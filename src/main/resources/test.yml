@@ -9,8 +9,8 @@
     check: "SELECT * FROM xxx;"
 
     retry:
-      max_attempts: 5
-      wait_duration: 5
+      max_attempts: 3
+      wait_duration: 3
 
 - name: sq-rabbit
   rabbit:

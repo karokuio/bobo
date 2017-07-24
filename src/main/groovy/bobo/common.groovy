@@ -10,12 +10,20 @@ import net.jodah.failsafe.Failsafe
 import net.jodah.failsafe.function.CheckedConsumer
 import net.jodah.failsafe.function.AsyncCallable
 import java.util.concurrent.ConcurrentHashMap
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * @since 0.1.0
  */
 @Field
 static final ScheduledExecutorService EXECUTOR = Executors.newScheduledThreadPool(10)
+
+/**
+ * @since 0.1.0
+ */
+@Field
+static final Logger LOG = LoggerFactory.getLogger(common)
 
 /**
  * Data structure that will hold the statuses of all registered
@@ -56,6 +64,7 @@ static void executeRetry(String id, Map config, Supplier<?> supplier) {
  */
 static CheckedConsumer<? extends Throwable> publishRetry(String id) {
   return { x ->
+    LOG.info("[RESULT][RETRY] $id")
     STORE.put(id, "RETRIED")
   }
 }
@@ -67,6 +76,7 @@ static CheckedConsumer<? extends Throwable> publishRetry(String id) {
  */
 static CheckedConsumer<? extends Throwable> publishSuccess(String id) {
   return { x ->
+    LOG.info("[RESULT][SUCCESS] $id")
     STORE.put(id, "SUCCEEDED")
   }
 }
@@ -78,6 +88,7 @@ static CheckedConsumer<? extends Throwable> publishSuccess(String id) {
  */
 static CheckedConsumer<? extends Throwable> publishFailure(String id) {
   return { x ->
+    LOG.info("[RESULT][FAILURE] $id")
     STORE.put(id, "FAILED")
   }
 }

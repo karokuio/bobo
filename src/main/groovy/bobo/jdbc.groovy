@@ -23,7 +23,7 @@ import bobo.common as C
  * @since 0.1.0
  */
 static void watch(String id, Map config) {
-  C.executeRetry(id, config, newQueryProducer(config))
+  C.executeRetry(id, config, newQueryProducer(id, config))
 }
 
 /**
@@ -31,9 +31,8 @@ static void watch(String id, Map config) {
  * @return
  * @since 0.1.0
  */
-static Supplier<String> newQueryProducer(Map config) {
+static Supplier<String> newQueryProducer(String id, Map config) {
   return { ->
-    println "jdbc:check: ${config.check}"
     newConnection(config).executeQuery "${config.check}"
   }
 }

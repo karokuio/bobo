@@ -30,7 +30,7 @@ import bobo.common as C
  * @since 0.1.0
  */
 static void watch(String id, Map config) {
-  C.executeRetry(id, config, newQueueChecker(config))
+  C.executeRetry(id, config, newQueueChecker(id, config))
 }
 
 /**
@@ -42,9 +42,8 @@ static void watch(String id, Map config) {
  * condition
  * @since 0.1.0
  */
-static Supplier newQueueChecker(Map config) {
+static Supplier newQueueChecker(String id, Map config) {
   return { ->
-    println "rabbit:check:queue"
     ConnectionFactory factory = new ConnectionFactory()
     factory.setUsername(config.username)
     factory.setPassword(config.password)

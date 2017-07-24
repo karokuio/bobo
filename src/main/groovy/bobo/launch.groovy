@@ -4,9 +4,7 @@ import static spark.Spark.get
 import static spark.Spark.path
 import static groovy.json.JsonOutput.toJson
 
-import bobo.jdbc as J
 import bobo.util as U
-import bobo.rabbit as R
 import bobo.common as C
 
 static void main(args) {
@@ -25,13 +23,14 @@ static void main(args) {
 }
 
 static void initWatchers() {
-  def services = U.yaml("/test.yml")
-
-  services.each { serviceMap ->
+  U.yaml("/test.yml")
+   .each { Map serviceMap ->
     def type = (serviceMap.keySet() - "name").first()
     def clazz = ClassLoader.systemClassLoader.loadClass("bobo.$type")
 
-    println "[MODULE]: ${clazz.name}"
+    C.LOG.info "[MODULE]: ${clazz.name}"
+    C.STORE.put(serviceMap.name, "WAIT")
+
     clazz.watch(serviceMap.name, serviceMap."$type")
   }
 }
